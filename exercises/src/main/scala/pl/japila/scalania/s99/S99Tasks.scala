@@ -48,19 +48,49 @@ class S99TasksSolutionNotImplemented extends S99TasksSolution {
 
   def p5[T](list: Seq[T]): Seq[T] = ???
 
-  def p6[T](list: Seq[T]): Boolean = ???
+  def p6[T](ls: Seq[T]): Boolean = ls match {
+    case Nil => true
+    case h :: Nil => true
+    case _ => ls.head == ls.last && p6(ls.tail.reverse.tail)
+  }
 
-  def p7(list: Seq[Any]): Seq[Any] = ???
+  def p7(ls: Seq[Any]): Seq[Any] = Solution.p7(ls)
 
-  def p8[T](list: Seq[T]): Seq[T] = ???
+  def p8[T](ls: Seq[T]): Seq[T] = ls match{ 
+    case Nil => Nil
+    //case x::Nil => List(x)
+    case x::xs => x+: p8(xs.dropWhile(_==x))
+  }
 
-  def p9[T](list: Seq[T]): Seq[Seq[T]] = ???
+  def p9[T](ls: Seq[T]): Seq[Seq[T]] = ls match {
+    case Nil => Nil
+    case x::xs => 
+      val (pocz,koniec)=ls.span( _==x )
+      List(pocz) ++ p9(koniec)
+  }
 
-  def p10[T](list: Seq[T]): Seq[(Int, T)] = ???
+  def p10[T](ls: Seq[T]): Seq[(Int, T)] = 
+    p9(ls) map ( sekw=> (sekw.length,sekw.head) )
+    
+    /*ls match {
+    case Nil => Nil
+    case x::xs => {
+      val (pocz,koniec)=ls.span( _==x )
+      List( (pocz.length,x) ) ++ p10(koniec)
+    }
+  }*/
 
-  def p11[T](list: Seq[T]): Seq[Either[(Int, T), T]] = ???
+  def p11[T](list: Seq[T]): Seq[Either[(Int, T), T]] = p10(list) 
+  		.map ( para => para._1 match {
+  		  case 1 => Right(para._2)
+  		  case _ => Left(para)
+  		} )
 
-  def p12[T](list: Seq[(Int, T)]): Seq[T] = ???
+  def p12[T](ts: Seq[(Int, T)]): Seq[T] = ts match{
+    case Nil => Nil
+  	case (1,t)::xs => t +: p12(xs)
+  	case (num,t)::xs => t +: p12( ( num -1,t) +: xs )
+  } 
 
   def p13[T](list: Seq[T]): Seq[(Int, T)] = ???
 
