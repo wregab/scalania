@@ -13,9 +13,3 @@ object S99_P08 {
     case h :: tail => h+:compressRec(h, tail, Seq[T]())
   }
 }
-//    ts.foldRight((Seq[T](), null) )( (t, B ) => B match {
-//      case (tb, poprzednie) =>
-//    }
-//    )
-//  }
-//}
